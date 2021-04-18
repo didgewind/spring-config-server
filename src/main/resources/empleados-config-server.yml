@@ -2,11 +2,8 @@ server:
   port: 4444
 
 spring:
-  profiles:
-    active: native
   cloud:
     config:
       server:
-        native:
-          search-locations: file://${user.home}/appData/spring-config-server/empleados/local-config
-#          search-locations: 'file://home/storage/madehomeextra/Documents/Freelance/workspaces especializados/spring mvc, rest, boot y cloud/config server/local-config'
+        git:
+          uri: file://${user.home}/appData/spring-config-server/empleados/git-server

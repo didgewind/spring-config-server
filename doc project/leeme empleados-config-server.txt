@@ -1,17 +1,11 @@
 Esta versión tira de spring boot 2.0
 
 * config server (puerto 4444): sirve ficheros .yml a los microservicios cuando se levantan.
-Este commit tira de ficheros en el sistema de ficheros.
+Este commit tira de un repositorio git en ${user.home}/appData/spring-config-server/empleados/git-server
 
 Para arrancar el server config en este modo hay que establecer la propiedad
 
-	spring.profiles.active=native
-
-y establecer la propiedad spring.cloud.config.server.native.search-locations (el valor no puede
-llevar espacios). En nuestro ejemplo estamos enlazando simbólicamente desde
-~/appData/spring-config-server/empleados/ y configuramos de esta forma:
-
-	search-locations: file://${user.home}/appData/spring-config-server/empleados/local-config
+	spring.cloud.config.server.git.uri: file://${user.home}/appData/spring-config-server/empleados/git-server
 
 En esa carpeta, application.yml es config común a todos los servicios, {application.yml}
 es configuración estándar del servicio {application}, y {application-profile.yml} es
@@ -23,8 +17,20 @@ Una vez arranquemos el servicio podemos probarlo accediendo a:
 	http://localhost:4444/empleados-service/puerto-fijo
 	(http://localhost:4444/{application}/{profile}
 
-El fichero {application-profile.yml} siempre debe existir, desde el cliente el/los profiles
-activos se especifican con esta clave:
+El fichero {application-profile.yml} siempre debe existir, desde el cliente el profile
+para el que queremos obtener la configuración se especifica con la clave:
+
+	spring.cloud.config.profile
+
+También se puede especificar con la clave
 
 	spring.profiles.active=dev
 	
+pero esta clave también se usa para establecer el profile activo al arrancar el servicio
+(i.e., para inyectar unos beans u otros) así que es mejor utilizar la primera y no mezclar
+cosas.
+
+También podemos elegir un commit, tag o branch específico del que leer la configuración
+mediante la clave
+
+	spring.cloud.config.label
