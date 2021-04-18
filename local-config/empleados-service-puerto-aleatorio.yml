@@ -1,0 +1,3 @@
+server:
+# Puerto aleatorio
+  port: ${PORT:0}

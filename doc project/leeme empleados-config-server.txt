@@ -1,0 +1,30 @@
+Esta versión tira de spring boot 2.0
+
+* config server (puerto 4444): sirve ficheros .yml a los microservicios cuando se levantan.
+Este commit tira de ficheros en el sistema de ficheros.
+
+Para arrancar el server config en este modo hay que establecer la propiedad
+
+	spring.profiles.active=native
+
+y establecer la propiedad spring.cloud.config.server.native.search-locations (el valor no puede
+llevar espacios). En nuestro ejemplo estamos enlazando simbólicamente desde
+~/appData/spring-config-server/empleados/ y configuramos de esta forma:
+
+	search-locations: file://${user.home}/appData/spring-config-server/empleados/local-config
+
+En esa carpeta, application.yml es config común a todos los servicios, {application.yml}
+es configuración estándar del servicio {application}, y {application-profile.yml} es
+config específica para el profile {profile}. La prioridad se establece de config más
+específica a menos.
+
+Una vez arranquemos el servicio podemos probarlo accediendo a:
+
+	http://localhost:4444/empleados-service/puerto-fijo
+	(http://localhost:4444/{application}/{profile}
+
+El fichero {application-profile.yml} siempre debe existir, desde el cliente el/los profiles
+activos se especifican con esta clave:
+
+	spring.profiles.active=dev
+	

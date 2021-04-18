@@ -1,0 +1,2 @@
+Aquí van los ficheros de configuración de los microservicios cuando usamos config local
+en vez de git

@@ -1,0 +1,13 @@
+eureka:
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+# Generamos id aleatorio para poder registrar diferentes instancias con eureka
+    instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+      
+app:
+  empleadosServiceAlias: empleados-service
+  departamentosServiceAlias: departamentos-service
